@@ -1,6 +1,6 @@
 'use server';
 import { revalidatePath } from 'next/cache';
-import { supabase } from '../supabaseClient';
+import { supabaseAdmin as supabase } from '../supabaseAdmin';
 export const fetchShipmentByTrackingNumber = async (trackingNumber) => {
   const error = {};
   console.log(`[API] fetchShipmentByTrackingNumber starting for: "${trackingNumber}"`);

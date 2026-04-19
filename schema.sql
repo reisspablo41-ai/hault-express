@@ -142,3 +142,55 @@ CREATE TABLE system_settings (
 );
 
 INSERT INTO system_settings (key, value, description) VALUES ('currency_symbol', '$', 'Global currency symbol used in the application');
+
+-- ============================================================
+-- ROW LEVEL SECURITY
+-- All writes go through server actions using the service role
+-- key (which bypasses RLS). Policies here govern direct DB
+-- access via the anon/authenticated keys.
+-- ============================================================
+
+ALTER TABLE statuses        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE shippingtypes   ENABLE ROW LEVEL SECURITY;
+ALTER TABLE packagetype     ENABLE ROW LEVEL SECURITY;
+ALTER TABLE transittimes    ENABLE ROW LEVEL SECURITY;
+ALTER TABLE system_settings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pets            ENABLE ROW LEVEL SECURITY;
+ALTER TABLE goods           ENABLE ROW LEVEL SECURITY;
+ALTER TABLE users           ENABLE ROW LEVEL SECURITY;
+ALTER TABLE shipments       ENABLE ROW LEVEL SECURITY;
+ALTER TABLE activity        ENABLE ROW LEVEL SECURITY;
+ALTER TABLE refunds         ENABLE ROW LEVEL SECURITY;
+ALTER TABLE profiles        ENABLE ROW LEVEL SECURITY;
+
+-- Lookup/reference tables: fully public read
+CREATE POLICY "Public read statuses"        ON statuses        FOR SELECT USING (true);
+CREATE POLICY "Public read shippingtypes"   ON shippingtypes   FOR SELECT USING (true);
+CREATE POLICY "Public read packagetype"     ON packagetype     FOR SELECT USING (true);
+CREATE POLICY "Public read transittimes"    ON transittimes    FOR SELECT USING (true);
+CREATE POLICY "Public read system_settings" ON system_settings FOR SELECT USING (true);
+
+-- Users: public read required so shipment foreign-key joins resolve
+CREATE POLICY "Public read users" ON users FOR SELECT USING (true);
+
+-- Pets / Goods: public read required for shipment joins
+CREATE POLICY "Public read pets"  ON pets  FOR SELECT USING (true);
+CREATE POLICY "Public read goods" ON goods FOR SELECT USING (true);
+
+-- Shipments: public read so anyone can look up a shipment by tracking number
+CREATE POLICY "Public read shipments" ON shipments FOR SELECT USING (true);
+
+-- Activity: public read for the tracking timeline
+CREATE POLICY "Public read activity" ON activity FOR SELECT USING (true);
+
+-- Profiles: each user sees only their own row
+CREATE POLICY "Users read own profile"   ON profiles FOR SELECT USING (auth.uid() = id);
+CREATE POLICY "Users update own profile" ON profiles FOR UPDATE USING (auth.uid() = id);
+
+-- Refunds: authenticated users see only refunds linked to their users record
+CREATE POLICY "Users read own refunds" ON refunds FOR SELECT
+  USING (
+    user_id = (
+      SELECT user_id FROM users WHERE email = auth.jwt() ->> 'email' LIMIT 1
+    )
+  );
