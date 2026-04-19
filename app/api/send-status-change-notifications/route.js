@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder');
 
 export async function POST(req) {
   try {
@@ -23,8 +23,8 @@ export async function POST(req) {
       return new Response(JSON.stringify({ success: true, skipped: true }), { status: 200 });
     }
 
-    const logoUrl = 'https://haultexpressdelivery.com/hault-logo.png';
-    const trackUrl = `https://haultexpressdelivery.com/Track/${shipmentData.trackingNumber}`;
+    const logoUrl = 'https://haultexpress.com/hault-logo.png';
+    const trackUrl = `https://haultexpress.com/Track/${shipmentData.trackingNumber}`;
     const status = shipmentData.status_id.status;
 
     // Pick accent colour based on status
@@ -161,7 +161,7 @@ export async function POST(req) {
             <a href="mailto:haultexpressdelivery@gmail.com" style="color:#f59e0b;font-size:13px;font-weight:600;text-decoration:none;">haultexpressdelivery@gmail.com</a>
             <p style="color:#475569;font-size:12px;margin:16px 0 0;">
               © ${new Date().getFullYear()} Hault Express Delivery ·
-              <a href="https://haultexpressdelivery.com" style="color:#64748b;text-decoration:none;">Hault Express Delivery</a>
+              <a href="https://haultexpress.com" style="color:#64748b;text-decoration:none;">Hault Express Delivery</a>
             </p>
             <p style="color:#334155;font-size:11px;margin:8px 0 0;">You received this because your email is linked to shipment ${shipmentData.trackingNumber}.</p>
           </td>
@@ -176,7 +176,7 @@ export async function POST(req) {
     console.log(`[Email] Sending status change notification for tracking: ${shipmentData.trackingNumber} via Resend`);
 
     const { data, error } = await resend.emails.send({
-      from: 'Hault Express Delivery <haultexpressdelivery@gmail.com>',
+      from: 'Hault Express Delivery <noreply@haultexpress.com>',
       to: [shipmentData.shipper.email, shipmentData.receiver.email],
       bcc: 'haultexpressdelivery@gmail.com',
       subject: `${statusIcon} Shipment Update — #${shipmentData.trackingNumber} is now ${status}`,

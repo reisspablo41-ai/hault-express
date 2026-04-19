@@ -1,6 +1,6 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || "no-key");
 
 export async function POST(req) {
   try {
@@ -35,7 +35,7 @@ export async function POST(req) {
 
     // Send email via Resend
     const { data, error } = await resend.emails.send({
-      from: 'Hault Express Delivery <haultexpressdelivery@gmail.com>',
+      from: 'Hault Express Delivery <noreply@haultexpress.com>',
       to: process.env.EMAIL_TO || 'haultexpressdelivery@gmail.com',
       replyTo: email,
       subject: `Claim Request from ${firstName} ${lastName}`,
