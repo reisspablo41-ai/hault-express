@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shipment Confirmation - Hault Express Delivery</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #334155;
+            margin: 0;
+            padding: 0;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #0f172a;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        .header img {
+            height: 50px;
+            margin-bottom: 20px;
+        }
+        .content {
+            padding: 40px;
+        }
+        .hero-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 16px;
+        }
+        .tracking-box {
+            background-color: #f1f5f9;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 24px 0;
+            border-radius: 4px;
+        }
+        .tracking-number {
+            font-family: monospace;
+            font-size: 20px;
+            font-weight: bold;
+            color: #0f172a;
+        }
+        .button {
+            display: inline-block;
+            padding: 14px 28px;
+            background-color: #f59e0b;
+            color: #0f172a !important;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .footer {
+            background-color: #f1f5f9;
+            padding: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748b;
+        }
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+        .detail-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+        .detail-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #334155;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{{SITE_URL}}/main-logo.png" alt="Hault Express Delivery Logo">
+        </div>
+        <div class="content">
+            <h1 class="hero-text">Shipment Confirmed!</h1>
+            <p>Hello <strong>{{RECEIVER_NAME}}</strong>,</p>
+            <p>Your shipment has been successfully registered and is now being processed. You can track your package in real-time using the tracking number below.</p>
+            
+            <div class="tracking-box">
+                <div class="detail-label">Tracking Number</div>
+                <div class="tracking-number">{{TRACKING_NUMBER}}</div>
+            </div>
+
+            <p>Current Status: <span style="color: #f59e0b; font-weight: bold;">{{STATUS}}</span></p>
+
+            <a href="{{SITE_URL}}/Track/{{TRACKING_NUMBER}}" class="button">Track Your Shipment</a>
+
+            <div class="details-grid">
+                <div>
+                    <div class="detail-label">Origin</div>
+                    <div class="detail-value">{{ORIGIN}}</div>
+                </div>
+                <div>
+                    <div class="detail-label">Destination</div>
+                    <div class="detail-value">{{DESTINATION}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 Hault Express Delivery. All rights reserved.</p>
+            <p>If you have any questions, contact us at <a href="mailto:haultexpressdelivery@gmail.com">haultexpressdelivery@gmail.com</a></p>
+        </div>
+    </div>
+</body>
+</html>
