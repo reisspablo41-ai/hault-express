@@ -1,7 +1,6 @@
 'use client';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { supabase } from '../supabaseClient';
 import { useUserContext } from '../Context/UserContext';
 import { toast } from 'sonner';
 import LoadingSpinner from './LoadingSpinner';
@@ -14,34 +13,18 @@ export function TrackingForm({ className }) {
   const { user } = useUserContext();
   const router = useRouter();
 
-  const handleTrackShipment = async () => {
-    if (!trackingNumber) {
+  const handleTrackShipment = () => {
+    const trimmed = trackingNumber.trim();
+    if (!trimmed) {
       toast.error('Please enter a valid tracking number.');
       return;
     }
 
-    try {
-      setLoading(true);
-
-      const { data, error } = await supabase
-        .from('shipments')
-        .select('*')
-        .eq('trackingnumber', trackingNumber)
-        .single();
-
-      if (error) {
-        throw new Error('Shipment not found. Please check the tracking number.');
-      }
-
-      if (user) {
-        router.push(`/dashboard/${trackingNumber}`);
-      } else {
-        router.push(`/Track/${trackingNumber}`);
-      }
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setLoading(false);
+    setLoading(true);
+    if (user) {
+      router.push(`/dashboard/${trimmed}`);
+    } else {
+      router.push(`/Track/${trimmed}`);
     }
   };
 

@@ -5,7 +5,6 @@ import {
   MapContainer,
   TileLayer,
   Marker,
-  Polyline,
   useMap,
 } from 'react-leaflet';
 import { Icon } from 'leaflet';
@@ -32,8 +31,8 @@ function Routing({
 
     // Dynamically build waypoints based on provided props
     const points = [[olat, olng]];
-    if (ilat1 !== undefined && ilng1 !== undefined) points.push([ilat1, ilng1]); // First Stop
-    if (ilat2 !== undefined && ilng2 !== undefined) points.push([ilat2, ilng2]); // Second Stop
+    if (ilat1 != null && ilng1 != null) points.push([ilat1, ilng1]); // First Stop
+    if (ilat2 != null && ilng2 != null) points.push([ilat2, ilng2]); // Second Stop
     points.push([dlat, dlng]); // Destination
 
     // Create the polyline between the points
@@ -79,7 +78,7 @@ function LeafletMap({
   shipmentId,
 }) {
   percentage = percentage / 100;
-  const { presentLocation, setPresentLocation, setActiveAddress } =
+  const { setPresentLocation, setActiveAddress } =
     useContext(TimerContext);
   const [thirdMarker, setThirdMarker] = useState(null);
   const [view, setView] = useState('osm'); // 'osm' for OpenStreetMap, 'satellite' for Satellite
@@ -149,10 +148,10 @@ function LeafletMap({
         />
         <Marker position={[olat, olng]} icon={customIcon} />
         {thirdMarker && <Marker position={thirdMarker} icon={customIcon} />}
-        {ilat1 !== undefined && ilng1 !== undefined && (
+        {ilat1 != null && ilng1 != null && (
           <Marker position={[ilat1, ilng1]} icon={customIcon} />
         )}
-        {ilat2 !== undefined && ilng2 !== undefined && (
+        {ilat2 != null && ilng2 != null && (
           <Marker position={[ilat2, ilng2]} icon={customIcon} />
         )}
         <Marker position={[dlat, dlng]} icon={customIcon} />
