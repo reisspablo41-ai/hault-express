@@ -3,7 +3,8 @@ import ButtonBig from '@/app/Components/ButtonBig';
 import MessageLog from './MessageLog';
 import { useEffect, useState } from 'react';
 import { SlClose } from 'react-icons/sl';
-import { updateGoods, updatePet, updateShipment, fetchAllUsers } from '@/app/api/supabaseapi';
+import { updateGoods, updatePet, updateShipment } from '@/app/api/supabaseActions';
+import { fetchAllUsers } from '@/app/api/supabaseapi';
 import { supabase } from '@/app/supabaseClient';
 import { triggerShipmentNotifications } from '@/app/api/notificationUtility';
 

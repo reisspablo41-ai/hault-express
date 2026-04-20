@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import MessageLog from './MessageLog';
-import { deleteRefunds } from '@/app/api/supabaseapi';
+import { deleteRefunds } from '@/app/api/supabaseActions';
 
 function Delete({ id }) {
   console.log(id);

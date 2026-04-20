@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { fetchSystemSettings, updateSystemSetting } from '@/app/api/supabaseapi';
+import { fetchSystemSettings } from '@/app/api/supabaseapi';
+import { updateSystemSetting } from '@/app/api/supabaseActions';
 import { toast } from 'sonner';
 import { FiSettings, FiDollarSign, FiSave } from 'react-icons/fi';
 

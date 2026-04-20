@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ButtonBig from '@/app/Components/ButtonBig';
 import { SlClose } from 'react-icons/sl';
-import { updateUser } from '@/app/api/supabaseapi'; // Import the API function
+import { updateUser } from '@/app/api/supabaseActions'; // Import the API function
 import MessageLog from './MessageLog';
 
 function UpdateUsersMenu({ setEditMenuOpen, activeUser }) {

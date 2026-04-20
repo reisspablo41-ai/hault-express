@@ -6,7 +6,7 @@ import { SlClose } from 'react-icons/sl';
 import {
   updateStatusShipment,
   createNewActivity,
-} from '@/app/api/supabaseapi';
+} from '@/app/api/supabaseActions';
 import { triggerShipmentNotifications } from '@/app/api/notificationUtility';
 import { supabase } from '@/app/supabaseClient';
 

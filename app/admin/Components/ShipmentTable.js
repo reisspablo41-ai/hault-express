@@ -4,7 +4,7 @@ import { FaEdit } from 'react-icons/fa';
 import { MdDelete } from 'react-icons/md';
 import UpdateShipmentMenu from './UpdateShipmentMenu';
 import { useState } from 'react';
-import { deleteShipment } from '@/app/api/supabaseapi';
+import { deleteShipment } from '@/app/api/supabaseActions';
 import MessageLog from './MessageLog';
 import { MdEditDocument } from 'react-icons/md';
 import EditStatusForm from './EditStatusForm';

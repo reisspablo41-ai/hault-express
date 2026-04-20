@@ -2,7 +2,7 @@
 
 import { createContext, useState, useEffect } from 'react';
 import { getAddressFromCoordinates } from '../Components/FetchCoords';
-import { updateShipmentLocation } from '../api/supabaseapi';
+import { updateShipmentLocation } from '../api/supabaseActions';
 
 const TimerContext = createContext();
 

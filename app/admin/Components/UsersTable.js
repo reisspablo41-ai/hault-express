@@ -1,6 +1,6 @@
 'use client';
 
-import { deleteUser } from '@/app/api/supabaseapi';
+import { deleteUser } from '@/app/api/supabaseActions';
 import ErrorBox from '@/app/dashboard/Components/ErrorBox';
 import { useState } from 'react';
 import { FaEdit } from 'react-icons/fa';
