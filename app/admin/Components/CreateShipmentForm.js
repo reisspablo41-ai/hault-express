@@ -58,6 +58,10 @@ function CreateShipmentForm({
   const [trackingNumber, setTrackingNumber] = useState(() => generateTrackingNumber());
 
   useEffect(() => {
+    router.refresh();
+  }, []);
+
+  useEffect(() => {
     supabase.from('transittimes').select('*').then(({ data, error }) => {
       console.log('[TransitTimes]', { data, error });
       if (data && data.length > 0) setTransittimes(data);
@@ -281,7 +285,7 @@ function CreateShipmentForm({
 
       if (responseData.success) {
         console.log('Notification emails sent successfully');
-        revalidateDashboard();
+        await revalidateDashboard();
         setTimeout(() => {
           router.push('/admin/dashboard');
         }, 1500);
