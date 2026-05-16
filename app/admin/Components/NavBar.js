@@ -35,7 +35,7 @@ function NavBar({ onClose }) {
     <aside className="bg-[#0A0A0B] text-gray-300 h-screen w-full flex flex-col border-r border-white/5 shadow-2xl">
       {/* Logo Area */}
       <div className="p-6 flex items-center justify-between border-b border-white/5">
-        <Link href="/admin/dashboard" className="transition-transform hover:scale-105 duration-300" onClick={onClose}>
+        <Link href="/admin/dashboard" className="transition-transform hover:scale-105 duration-300" onClick={onClose} prefetch={false}>
           <Image
             src="/hault-logo.png"
             height={40}
@@ -73,7 +73,7 @@ function NavBar({ onClose }) {
           if (item.name === 'Dashboard' && pathname === '/admin/dashboard') return null; // Avoid dupes
 
           return (
-            <Link key={index} href={item.path} onClick={onClose}>
+            <Link key={index} href={item.path} onClick={onClose} prefetch={false}>
               <div
                 className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 group cursor-pointer ${isActive
                   ? 'bg-white/10 text-white font-medium shadow-[0_4px_12px_rgba(255,255,255,0.05)]'

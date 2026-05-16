@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import AdminLogin from './Components/Login';
 
 function page() {

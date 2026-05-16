@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import AddUserForm from '../../Components/AddUserForm';
 
 function page() {
