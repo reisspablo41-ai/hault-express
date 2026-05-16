@@ -32,7 +32,7 @@ export default function AdminLogin() {
       }
 
       // Enforce the specific admin account ID
-      if (userId !== 'fae1323a-ade8-4f08-bfd9-4f748c916ecd') {
+      if (userId !== '12124b30-d95b-468a-bd6e-c3ac5b8f09c6') {
         toast.error('Access denied: Unauthorized identity.');
         setLoading(false);
         await supabase.auth.signOut();

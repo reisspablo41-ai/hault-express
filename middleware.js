@@ -50,7 +50,7 @@ export async function middleware(request) {
 
             // Admin Protection Logic
             if (url.pathname.startsWith('/admin/dashboard')) {
-                const ADMIN_UUID = 'fae1323a-ade8-4f08-bfd9-4f748c916ecd';
+                const ADMIN_UUID = '12124b30-d95b-468a-bd6e-c3ac5b8f09c6';
 
                 if (!user || user.id !== ADMIN_UUID) {
                     // If not authenticated or not the admin, redirect to admin login
