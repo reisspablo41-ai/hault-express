@@ -2,6 +2,9 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 
 export async function middleware(request) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+
     let response = NextResponse.next({
         request: {
             headers: request.headers,
@@ -14,11 +17,11 @@ export async function middleware(request) {
 
         if (!supabaseUrl || !supabaseKey) {
             console.error('Missing Supabase environment variables in Middleware!');
-            const url = new URL(request.url);
-            if (url.pathname.startsWith('/admin/dashboard')) {
+            if (path.startsWith('/admin/dashboard')) {
                 const loginUrl = new URL('/admin', request.url);
                 return NextResponse.redirect(loginUrl);
             }
+            return response;
         } else {
             const supabase = createServerClient(
                 supabaseUrl,
@@ -43,26 +46,31 @@ export async function middleware(request) {
                 }
             );
 
-            // refreshing the auth token
-            const { data: { user } } = await supabase.auth.getUser();
-
-            const url = new URL(request.url);
-
-            // Admin Protection Logic
-            if (url.pathname.startsWith('/admin/dashboard')) {
+            // ONLY perform authentication checks on sensitive routes
+            // This prevents middleware timeouts on the home page and other public routes
+            if (path.startsWith('/admin/dashboard') || path.startsWith('/dashboard')) {
+                const { data: { user } } = await supabase.auth.getUser();
                 const ADMIN_UUID = '12124b30-d95b-468a-bd6e-c3ac5b8f09c6';
 
-                if (!user || user.id !== ADMIN_UUID) {
-                    // If not authenticated or not the admin, redirect to admin login
-                    const loginUrl = new URL('/admin', request.url);
-                    return NextResponse.redirect(loginUrl);
+                // Admin Protection Logic
+                if (path.startsWith('/admin/dashboard')) {
+                    if (!user || user.id !== ADMIN_UUID) {
+                        const loginUrl = new URL('/admin', request.url);
+                        return NextResponse.redirect(loginUrl);
+                    }
+                } 
+                // General Dashboard Protection Logic
+                else if (path.startsWith('/dashboard')) {
+                    if (!user) {
+                        const loginUrl = new URL('/signin', request.url);
+                        return NextResponse.redirect(loginUrl);
+                    }
                 }
             }
         }
     } catch (error) {
         console.error('Middleware execution error:', error);
-        const url = new URL(request.url);
-        if (url.pathname.startsWith('/admin/dashboard')) {
+        if (path.startsWith('/admin/dashboard')) {
             const loginUrl = new URL('/admin', request.url);
             return NextResponse.redirect(loginUrl);
         }
